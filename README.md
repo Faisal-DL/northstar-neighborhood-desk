@@ -23,9 +23,18 @@ The seeded report `NS-1042` is always available. The **Reset demo** action clear
 
 The top-right **EN / DE** toggle switches the complete interface between English and German. The journey event names and saved demo data remain stable when the language changes.
 
-## Exercise
+## Set up PostHog and Vercel
 
-Follow [GUIDE.md](GUIDE.md): create your repo from this template, add your PostHog (EU cloud) project token, deploy to Vercel, swap tasks with the other group, and generate a replay-linked report with the included `posthog-task-report` skill.
+**With Claude Code:** paste the setup prompt from [GUIDE.md](GUIDE.md#quick-setup-with-claude-code) into Claude Code, and it does the steps below for you.
+
+**By hand:**
+
+1. **Create your repo:** click **Use this template → Create a new repository**, then clone it and run `npm install`.
+2. **Add PostHog:** sign up at [eu.posthog.com/signup](https://eu.posthog.com/signup) (EU cloud, free). Copy your project token from **Settings → Project → Project token**, then run `cp .env.example .env.local` and paste the token after `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN=`. Check that **Settings → Session replay → Record user sessions** is on.
+3. **Check it locally:** run `npm run dev`, complete a task, and look under **Activity** and **Session replay** in PostHog. New events can take a few minutes to appear.
+4. **Deploy on Vercel:** at [vercel.com/new](https://vercel.com/new), import your repo, keep the Next.js preset, and paste your token into the `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` environment variable. Skip the optional PostHog integration, then click **Deploy**.
+
+No code changes are needed. For the rest of the exercise (swapping tasks, the agent report, and the replay), follow [GUIDE.md](GUIDE.md).
 
 ## PostHog
 
