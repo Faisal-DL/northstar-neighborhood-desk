@@ -1,13 +1,17 @@
+import posthog from "posthog-js";
+
 /**
- * Student integration point. The app calls this for journey boundaries.
- * After installing PostHog, forward the event to posthog.capture(name, properties).
- * Include replay_url: posthog.get_session_replay_url({ withTimestamp: true, timestampLookBack: 5 })
- * in the captured properties,
- * so the read-only task report can link directly to this session's replay.
- * Keep this file safe to call in the browser before PostHog is ready.
- * PostHog env vars belong in .env.local (see .env.example), never in .env.
+ * Called at the start and finish of each task. Sends the event to PostHog with a
+ * timestamped replay_url, so the task report can link straight to the session replay.
+ * Does nothing until a PostHog token is set (see instrumentation-client.ts).
  */
 export function journeyEvent(name: string, properties: Record<string, string> = {}) {
   if (typeof window === "undefined") return;
   window.dispatchEvent(new CustomEvent("northstar:journey", { detail: { name, properties } }));
+  if (!process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN) return;
+
+  posthog.capture(name, {
+    ...properties,
+    replay_url: posthog.get_session_replay_url({ withTimestamp: true, timestampLookBack: 5 }),
+  });
 }
