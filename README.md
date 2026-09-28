@@ -1,4 +1,4 @@
-# Northstar Service Desk
+# Northstar Neighborhood Service Desk
 
 A small Next.js demo for the Observability & Monitoring collab. It runs without accounts, a database, API keys, email, OAuth, or a hosted backend. Reports and appointments are stored in the visitor's browser so each partner can complete a task immediately.
 
@@ -20,6 +20,8 @@ Open [http://localhost:3000](http://localhost:3000). Use `npm run build` to chec
 | Book a visit about housing advice | **Book a visit** | An `AP-…` confirmation appears |
 
 The seeded report `NS-1042` is always available. The **Reset demo** action clears new reports and bookings on that browser only. None of the flows requires a real name, email address, or payment.
+
+The top-right **EN / DE** toggle switches the complete interface between English and German. The journey event names and saved demo data remain stable when the language changes.
 
 ## Deploy on Vercel
 
