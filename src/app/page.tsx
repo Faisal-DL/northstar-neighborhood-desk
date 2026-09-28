@@ -51,6 +51,7 @@ export default function Home() {
   const [time, setTime] = useState("");
   const [bookingError, setBookingError] = useState("");
   const [latestBooking, setLatestBooking] = useState<Booking | null>(null);
+  const [resetOpen, setResetOpen] = useState(false);
 
   useEffect(() => { window.localStorage.setItem("northstar-reports", JSON.stringify(reports)); }, [reports]);
   useEffect(() => { window.localStorage.setItem("northstar-bookings", JSON.stringify(bookings)); }, [bookings]);
@@ -93,10 +94,9 @@ export default function Home() {
     journeyEvent("booking_completed", { service }); setScreen("book-done");
   };
   const resetDemo = () => {
-    if (!window.confirm("Reset reports and bookings on this device?")) return;
     window.localStorage.removeItem("northstar-reports");
     window.localStorage.removeItem("northstar-bookings");
-    setReports([]); setBookings([]); setScreen("home");
+    setReports([]); setBookings([]); setScreen("home"); setResetOpen(false);
   };
 
   return (
@@ -199,7 +199,8 @@ export default function Home() {
         </>}
       </main>
 
-      <footer className="footer"><span>Northstar Service Desk <span className="footer-separator">·</span> A local demo</span><button onClick={resetDemo}><RotateCcw size={14} /> Reset demo</button></footer>
+      <footer className="footer"><span>Northstar Service Desk <span className="footer-separator">·</span> A local demo</span><button onClick={() => setResetOpen(true)}><RotateCcw size={14} /> Reset demo</button></footer>
+      {resetOpen && <div className="modal-backdrop" role="presentation"><section className="reset-modal surface" role="dialog" aria-modal="true" aria-labelledby="reset-title"><span className="action-icon peach"><RotateCcw size={23} /></span><h2 id="reset-title">Start fresh?</h2><p>This clears the reports and bookings you made on this device. The demo report NS-1042 will still be there.</p><div className="modal-actions"><button className="text-button" onClick={() => setResetOpen(false)}>Keep my work</button><button className="primary-button" onClick={resetDemo}>Reset demo</button></div></section></div>}
     </div>
   );
 }
