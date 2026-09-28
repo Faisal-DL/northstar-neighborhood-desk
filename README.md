@@ -23,15 +23,13 @@ The seeded report `NS-1042` is always available. The **Reset demo** action clear
 
 The top-right **EN / DE** toggle switches the complete interface between English and German. The journey event names and saved demo data remain stable when the language changes.
 
-## Deploy on Vercel
+## Exercise
 
-Fork and clone the repository. After adding PostHog, commit and push your changes, then import your fork into your own Vercel account. Use the detected **Next.js** preset and default build settings. Add the wizard's `NEXT_PUBLIC_` PostHog values in Vercel before deploying. The base app needs no environment variables; browser storage handles its demo state.
+Follow [GUIDE.md](GUIDE.md) step by step: create your own copy with **Use this template**, add PostHog, deploy to Vercel, swap tasks with your partner, and generate a replay-linked report with the included `posthog-task-report` skill.
 
 ## PostHog integration point
 
-The app intentionally has no PostHog project attached. [`src/lib/analytics.ts`](src/lib/analytics.ts) is a tiny browser-safe hook already called at the start and completion of each task. After running [PostHog's Install with AI wizard](https://posthog.com/docs/session-replay/installation) in the fork, ask your coding agent to connect `journeyEvent` to `posthog.capture(name, properties)`, include a `replay_url` property from [`posthog.get_session_replay_url({ withTimestamp: true, timestampLookBack: 5 })`](https://posthog.com/docs/references/posthog-js) on each journey event, and verify autocapture and session replay. The reporting skill uses the start event's URL to open the matching private replay near the beginning of the flow. The six journey event names are:
-
-Suggested agent prompt: “Connect `src/lib/analytics.ts` to the PostHog client installed by the wizard. Preserve all existing journey event names and properties, add `replay_url` from `posthog.get_session_replay_url({ withTimestamp: true, timestampLookBack: 5 })` to each event, and keep user-entered text out of event properties. Check that a start and finish event, autocaptured clicks, and a replay appear for one local test flow. Run the build and tell me which `NEXT_PUBLIC_` values to add in Vercel.”
+The base app has no PostHog dependency or credentials and runs before instrumentation. [`src/lib/analytics.ts`](src/lib/analytics.ts) is a browser-safe hook already called at the start and completion of each task. The guide shows how to connect it to `posthog.capture` with a timestamped `replay_url` from [`posthog.get_session_replay_url()`](https://posthog.com/docs/references/posthog-js). The six journey event names are:
 
 | Flow | Start | Finish |
 | --- | --- | --- |
@@ -39,6 +37,4 @@ Suggested agent prompt: “Connect `src/lib/analytics.ts` to the PostHog client 
 | Track a report | `tracking_started` | `tracking_completed` |
 | Book a visit | `booking_started` | `booking_completed` |
 
-Use a test browser for partner sessions. The app sends no personal data by itself, but review [PostHog's replay privacy controls](https://posthog.com/docs/session-replay/privacy) before recording any real users.
-
-The base app has no PostHog dependency or credentials, and it can be run and evaluated before instrumentation.
+The app sends no personal data by itself. Use invented details, and review [PostHog's replay privacy controls](https://posthog.com/docs/session-replay/privacy) before recording real users.
