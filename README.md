@@ -1,6 +1,6 @@
 # Northstar Neighborhood Service Desk
 
-A small Next.js demo for the Observability & Monitoring collab. It runs without accounts, a database, API keys, email, OAuth, or a hosted backend. Reports and appointments are stored in the visitor's browser so each partner can complete a task immediately.
+A small Next.js demo for the Observability & Monitoring collab. It runs without accounts, a database, API keys, email, OAuth, or a hosted backend. Reports and appointments are stored in the visitor's browser so anyone can complete a task immediately.
 
 ## Run locally
 
@@ -13,7 +13,7 @@ Open [http://localhost:3000](http://localhost:3000). Use `npm run build` to chec
 
 ## Three ready-to-use tasks
 
-| Task for a partner | Starting point | Completed when |
+| Task for the other group | Starting point | Completed when |
 | --- | --- | --- |
 | Report a broken streetlight | **Report an issue** | A new `NS-…` reference appears |
 | Check an existing streetlight report | **Track a report**; reference `NS-1042` is already filled in | The status and timeline appear |
@@ -25,7 +25,7 @@ The top-right **EN / DE** toggle switches the complete interface between English
 
 ## Exercise
 
-Follow [GUIDE.md](GUIDE.md) step by step: create your own copy with **Use this template**, add PostHog, deploy to Vercel, swap tasks with your partner, and generate a replay-linked report with the included `posthog-task-report` skill.
+Follow [GUIDE.md](GUIDE.md): create your repo from this template, add PostHog (EU cloud), deploy to Vercel, swap tasks with the other group, and generate a replay-linked report with the included `posthog-task-report` skill.
 
 ## PostHog integration point
 
