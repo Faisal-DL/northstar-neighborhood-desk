@@ -88,6 +88,11 @@ export default function Home() {
   useEffect(() => { window.localStorage.setItem("northstar-bookings", JSON.stringify(bookings)); }, [bookings]);
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [screen]);
   useEffect(() => { document.documentElement.lang = lang; }, [lang]);
+  // Demo only: /?view=book opens the booking screen on "Tomorrow", so a saved heatmap can render it.
+  // It sends no booking_started event, so opening it doesn't count as a booking attempt.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("view") === "book") { setDayIndex(1); setScreen("book"); }
+  }, []);
 
   const goHome = () => setScreen("home");
   const startReport = () => {
