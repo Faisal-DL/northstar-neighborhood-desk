@@ -27,6 +27,16 @@ const days = [
 ];
 type Text = typeof copy.en | typeof copy.de;
 
+// Opening hours per slot, used to validate a selected time.
+const slotHours: Record<string, { opens: string; closes: string }> = {
+  "09:30": { opens: "09:00", closes: "12:00" },
+  "10:15": { opens: "09:00", closes: "12:00" },
+};
+function checkSlot(slot: string) {
+  const hours = slotHours[slot];
+  return hours.opens <= slot && slot < hours.closes;
+}
+
 function issueLabel(value: string, c: Text) {
   if (value === "Streetlight") return c.streetlight;
   if (value === "Road or pavement") return c.road;
@@ -216,7 +226,7 @@ export default function Home() {
           <section className="form-card surface">
             <div className="field-group"><label htmlFor="service">{c.visitAbout}</label><div className="select-wrap"><select id="service" value={service} onChange={(e) => setService(e.target.value)}>{services.map((item) => <option key={item} value={item}>{serviceLabel(item, c)}</option>)}</select><ChevronRight size={19} /></div></div>
             <div className="field-group"><label>{c.pickDay}</label><div className="day-grid" role="group" aria-label={c.appointmentDay}>{days.map((item, index) => <button key={item.label} type="button" className={`day-choice ${dayIndex === index ? "selected" : ""}`} onClick={() => { setDayIndex(index); setTime(""); setBookingError(false); }} aria-pressed={dayIndex === index}><strong>{dayLabel(item.label, c)}</strong><small>{index === 0 ? c.fullyBooked : c.twoTimes}</small></button>)}</div></div>
-            <div className="field-group"><label>{c.availableTimes}</label>{days[dayIndex].slots.length ? <div className="slot-grid" role="group" aria-label={c.appointmentTime}>{days[dayIndex].slots.map((slot) => <button key={slot} type="button" className={`slot ${time === slot ? "selected" : ""}`} onClick={() => { setTime(slot); setBookingError(false); }} aria-pressed={time === slot}><Clock3 size={16} />{slot}</button>)}</div> : <div className="empty-slots"><CalendarDays size={22} /><span>{c.noTimes}</span></div>}</div>
+            <div className="field-group"><label>{c.availableTimes}</label>{days[dayIndex].slots.length ? <div className="slot-grid" role="group" aria-label={c.appointmentTime}>{days[dayIndex].slots.map((slot) => <button key={slot} type="button" className={`slot ${time === slot ? "selected" : ""}`} onClick={() => { if (!checkSlot(slot)) return; setTime(slot); setBookingError(false); }} aria-pressed={time === slot}><Clock3 size={16} />{slot}</button>)}</div> : <div className="empty-slots"><CalendarDays size={22} /><span>{c.noTimes}</span></div>}</div>
             {bookingError && <p className="field-error" role="alert">{c.chooseTimeError}</p>}
             <button className="primary-button" onClick={submitBooking}>{c.confirmVisit} <ArrowRight size={18} /></button>
           </section>
