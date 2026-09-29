@@ -91,6 +91,7 @@ export default function Home() {
   // Demo only: /?view=book opens the booking screen on "Tomorrow", so a saved heatmap can render it.
   // It sends no booking_started event, so opening it doesn't count as a booking attempt.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- read the URL once after hydration
     if (new URLSearchParams(window.location.search).get("view") === "book") { setDayIndex(1); setScreen("book"); }
   }, []);
 
